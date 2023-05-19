@@ -30,14 +30,14 @@
     <div class="page-mask" id="hidden"></div>
     <div class="add-book-card" id="hidden">	
         <h2 class="add-book-title">Add New Book</h2>	
-        <input type="text" name="title" id="title" placeholder="Title">
-        <input type="text" name="author" id="author" placeholder="Author">
-        <input type="number" name="pages" id="pages" placeholder="Pages">
-        <div class="checkbox-container">
+        <input type="text" name="title" id="title" placeholder="Title" required>
+        <input type="text" name="author" id="author" placeholder="Author" required>
+        <input type="number" pattern="^[^a-zA-Z]+$" name="pages" id="pages" placeholder="Pages" required>
+        <div class="checkbox-container" id="checkbox">
             <div class="read-it-text">Have you read it?</div>
-            <input type="checkbox" name="have-you-read" id="have-you-read">
+            <input type="checkbox" name="status" id="status">
         </div>
-        <button class="submit-button">Submit</button>
+        <button type="submit" onclick="addBookToLibrary(this)">Submit</button>
     </div>
 
 </body>

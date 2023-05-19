@@ -41,6 +41,10 @@ button {
   border: 2px solid rgb(80, 79, 79);
 }
 
+button:hover {
+    filter:brightness(125%)
+}
+
 .content {
   height: 100%;
   align-items: flex-start;
@@ -109,9 +113,9 @@ input {
     position: fixed;
     left: 35%;
     right: 35%;
-    bottom: 31%;
     top: 27%;
     background-color: white;
+    border:2px solid #000000;
   }
 
   #delete-button {

@@ -1,25 +1,13 @@
-let myLibrary = [];
-
-function Book(title, author, pages, read) {
-    this.title = title
-    this.author = author
-    this.pages = pages
-    this.read = read
-}
-
-Book.prototype.info = function() {
-    console.log(`${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`)
-}
-
-function addBookToLibrary(title, author, pages, read) {
-    let book = new Book(title, author, pages, read)
-    myLibrary.push(book)
-}
+let myLibrary = [
+    {title: "The Hobbit", author: "J.R.R. Tolkien", pages: 295, read: "Incomplete"},
+    {title: "Nineteen Eighty-Four", author: "George Orwell", pages: 328, read: "Complete"},
+    {title: "On War", author: "Carl von Clausewitz", pages: 373, read: "Complete"}
+];
 
 const addBookBtn = document.querySelector('.new-book')
 const addBookCard = document.querySelector('.add-book-card')
 const pageMask = document.querySelector('.page-mask')
-
+const table = document.querySelector('.book-table')
 
 addBookBtn.addEventListener('click', function() {
     addBookCard.removeAttribute('id', 'hidden')
@@ -31,46 +19,81 @@ pageMask.addEventListener('click', function() {
     addBookCard.setAttribute('id', 'hidden')
 })
 
-addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, "Incomplete")
-addBookToLibrary("Nineteen Eighty-Four", "George Orwell", 328, "Complete")
-
-
-
-const table = document.querySelector('.book-table')
-
-for(book of myLibrary){    
-    const newRow = document.createElement("tr");
-    
-    const bookTitle = document.createElement("td")
-    const bookAuthor = document.createElement("td")
-    const bookPages = document.createElement("td")
-    
-    bookTitle.textContent = book.title
-    bookAuthor.textContent = book.author
-    bookPages.textContent = book.pages
- 
-    
-    const bookReadTd = document.createElement("td")
-    const bookReadBtn = document.createElement("button")
-    bookReadBtn.setAttribute('id', `${book.read}`)
-    bookReadBtn.textContent = book.read
-    bookReadTd.appendChild(bookReadBtn)
-
-    const deleteBtnTd = document.createElement("td")
-    const deleteBtn = document.createElement("button")
-    deleteBtnTd.appendChild(deleteBtn)
-    deleteBtn.textContent = "Delete"
-    deleteBtn.setAttribute('id', 'delete-button')
-
-
-    newRow.appendChild(bookTitle)
-    newRow.appendChild(bookAuthor)
-    newRow.appendChild(bookPages)
-    newRow.appendChild(bookReadTd)
-    newRow.appendChild(deleteBtnTd)
-
-    table.appendChild(newRow)
+function Book(title, author, pages, read) {
+    this.title = title
+    this.author = author
+    this.pages = pages
+    this.read = read
 }
 
+function addBookToLibrary(b) { // traverse the DOM for user inputs, create new book object and push to library
+    const loc = b.parentElement.children   
+    const statusLoc = loc.checkbox.children.status.checked
+    let readStatus = ""
+    
+    statusLoc == true ? readStatus = "Complete" : readStatus = "Incomplete"
+    
+    let book = new Book(loc.title.value, loc.author.value, loc.pages.value, readStatus)
+    myLibrary.push(book)
 
 
+    console.log(myLibrary[myLibrary.length-1])
+
+    createTableRow(myLibrary[myLibrary.length-1])
+}
+
+function createTableRow(book) {
+    const newRow = document.createElement("tr");
+    
+    const createCell = (content) => {
+      const cell = document.createElement("td");
+      cell.textContent = content;
+      return cell;
+    };
+  
+    newRow.appendChild(createCell(book.title));
+    newRow.appendChild(createCell(book.author));
+    newRow.appendChild(createCell(book.pages));
+  
+    const bookReadTd = document.createElement("td");
+    const bookReadBtn = document.createElement("button");
+    bookReadBtn.setAttribute("id", book.read);
+    bookReadBtn.setAttribute("onclick", "toggleStatus(this)")
+    bookReadBtn.textContent = book.read;
+    bookReadTd.appendChild(bookReadBtn);
+  
+    const deleteBtnTd = document.createElement("td");
+    const deleteBtn = document.createElement("button");
+    deleteBtnTd.appendChild(deleteBtn);
+    deleteBtn.textContent = "Delete";
+    deleteBtn.setAttribute("id", "delete-button");
+    deleteBtn.setAttribute("onclick", "deleteRow(this)")
+  
+    newRow.appendChild(bookReadTd);
+    newRow.appendChild(deleteBtnTd);
+  
+    table.appendChild(newRow);
+}
+
+function deleteRow(button) {
+    let index = button.parentElement.parentElement.rowIndex
+    
+    myLibrary.splice(index-1, 1)
+    table.deleteRow(index)
+}
+
+function toggleStatus(b) {
+    if (b.textContent == "Complete") {
+        b.textContent = "Incomplete"
+        b.setAttribute("id", "Incomplete")
+    }
+    else {
+        b.textContent == "Incomplete"
+        b.textContent = "Complete"
+        b.setAttribute("id", "Complete")
+    }
+}
+
+for (book of myLibrary) {
+    createTableRow(book)
+  }
