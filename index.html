@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <script src="main.js"></script>
+    <script src="main.js" defer></script>
     <title>Library</title>
 </head>
 <body>
@@ -16,17 +16,28 @@
 	</header>
 
 	<div class="content">
-    	<div class="add-book-card" id="hidden">	
-			<h2 class="add-book-title">Add New Book</h2>	
-			<input type="text" name="title" id="title" placeholder="Title">
-			<input type="text" name="author" id="author" placeholder="Author">
-			<input type="number" name="pages" id="pages" placeholder="Pages">
-			<div class="checkbox-container">
-				<div class="read-it-text">Have you read it?</div>
-				<input type="checkbox" name="have-you-read" id="have-you-read">
-			</div>
-			<button class="submit-button">Submit</button>
-		</div>
+        <table class="book-table">
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Pages</th>
+                <th>Status</th>
+                <th>Delete</th>
+            </tr>
+        </table>
+    </div>
+
+    <div class="page-mask" id="hidden"></div>
+    <div class="add-book-card" id="hidden">	
+        <h2 class="add-book-title">Add New Book</h2>	
+        <input type="text" name="title" id="title" placeholder="Title">
+        <input type="text" name="author" id="author" placeholder="Author">
+        <input type="number" name="pages" id="pages" placeholder="Pages">
+        <div class="checkbox-container">
+            <div class="read-it-text">Have you read it?</div>
+            <input type="checkbox" name="have-you-read" id="have-you-read">
+        </div>
+        <button class="submit-button">Submit</button>
     </div>
 
 </body>
