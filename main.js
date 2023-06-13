@@ -5,9 +5,10 @@ let myLibrary = [
 ];
 
 const addBookBtn = document.querySelector('.new-book')
-const addBookCard = document.querySelector('.add-book-card')
 const pageMask = document.querySelector('.page-mask')
 const table = document.querySelector('.book-table')
+
+const addBookCard = document.querySelector('.add-book-card')
 
 addBookBtn.addEventListener('click', function() {
     addBookCard.removeAttribute('id', 'hidden')
@@ -27,19 +28,44 @@ function Book(title, author, pages, read) {
 }
 
 function addBookToLibrary(b) { // traverse the DOM for user inputs, create new book object and push to library
-    const loc = b.parentElement.children   
-    const statusLoc = loc.checkbox.children.status.checked
-    let readStatus = ""
+
+    if (isBookValid()) {
+        const loc = b.parentElement.children   
+        const statusLoc = loc.checkbox.children.status.checked
+        let readStatus = ""
+        
+        statusLoc == true ? readStatus = "Complete" : readStatus = "Incomplete"
+        
+        let book = new Book(loc.title.value, loc.author.value, loc.pages.value, readStatus)
+        myLibrary.push(book)
     
-    statusLoc == true ? readStatus = "Complete" : readStatus = "Incomplete"
     
-    let book = new Book(loc.title.value, loc.author.value, loc.pages.value, readStatus)
-    myLibrary.push(book)
+        console.log(myLibrary[myLibrary.length-1])
+    
+        createTableRow(myLibrary[myLibrary.length-1])
+    }
 
 
-    console.log(myLibrary[myLibrary.length-1])
+}
 
-    createTableRow(myLibrary[myLibrary.length-1])
+function isBookValid() {
+    const titleInput = document.getElementById('title')
+    const authorInput = document.getElementById('author')
+    const pagesInput = document.getElementById('pages')
+
+    if (!titleInput.checkValidity()) {
+        console.log("invalid title")
+        return false
+    }
+    else if (!authorInput.checkValidity()) {
+        console.log("invalid author")
+        return false
+    }
+    else if (!pagesInput.checkValidity()) {
+        return false
+    }
+    else return true
+
 }
 
 function createTableRow(book) {
